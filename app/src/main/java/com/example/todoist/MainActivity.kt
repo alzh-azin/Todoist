@@ -1,6 +1,10 @@
 package com.example.todoist
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -29,6 +33,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TodoistTheme {
+
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://todoist.com/oauth/authorize?client_id=766ef02efd6b42429cc7a69f3e35bd3a&scope=data:read,data:delete&state=secretstring")
+                )
+
 
                 Column(
                     modifier = Modifier
@@ -64,7 +74,9 @@ class MainActivity : ComponentActivity() {
                     Spacer(modifier = Modifier.height(56.dp))
 
                     Button(
-                        onClick = { },
+                        onClick = {
+                            startActivity(intent)
+                        },
                         modifier = Modifier
                             .padding(bottom = 32.dp)
 
@@ -76,5 +88,34 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        val uri: Uri? = intent?.data
+        if (uri != null) {
+            val code = uri.getQueryParameter("code")
+            if (code != null) {
+                Log.d("AuthTestCode", "$code")
+                Toast.makeText(this, "Login success!", Toast.LENGTH_SHORT).show()
+            } else if ((uri.getQueryParameter("error")) != null) {
+                Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+//    @Composable
+//    fun executeIntent() {
+//        val intent = Intent(
+//            Intent.ACTION_VIEW,
+//            Uri.parse("https://todoist.com/oauth/authorize?client_id=766ef02efd6b42429cc7a69f3e35bd3a&scope=data:read,data:delete&state=secretstring")
+//        )
+//
+//        Button(onClick = {
+//            startActivity(intent)
+//
+//        }) {
+//            Text(text = "Click on me")
+//        }
+//    }
 }
 
