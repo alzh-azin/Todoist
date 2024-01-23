@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -31,32 +32,43 @@ class MainActivity : ComponentActivity() {
 
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .wrapContentSize(),
-                    verticalArrangement = Arrangement.Center,
+                        .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
 
                     ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.at_work),
-                        contentDescription = null,
+                    Column(
                         modifier = Modifier
-                    )
+                            .weight(1f)
+                            .fillMaxSize()
+                            .wrapContentSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.at_work),
+                            contentDescription = null,
+                        )
 
-                    Text(
-                        text = "Todoist",
-                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    )
+                        Text(
+                            text = "Todoist",
+                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                        )
 
-                    Text(
-                        text = "Designed to help you better manage your work",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = Color.Gray
-                    )
+                        Text(
+                            text = "Designed to help you better manage your work",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = Color.Gray
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(56.dp))
 
-                    Button(onClick = { }) {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .padding(bottom = 32.dp)
+
+                    ) {
                         Text(text = "Get Started")
                     }
                 }
