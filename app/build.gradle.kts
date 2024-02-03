@@ -76,4 +76,6 @@ dependencies {
     kapt(libs.hilt.compiler)
     kapt(libs.hilt.ext.compiler)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.datastore.preferences)
 }
