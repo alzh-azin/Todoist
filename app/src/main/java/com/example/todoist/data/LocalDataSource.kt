@@ -18,12 +18,13 @@ class LocalDataSource @Inject constructor(
 
     val authToken: Flow<String?> = dataStore.data
         .map { preferences ->
-            preferences[USER_TOKEN_KEY]
+            preferences[USER_TOKEN_KEY] ?: ""
         }.catch { exception ->
             Log.d("DataStoreException", "${exception.message}")
         }
 
     suspend fun setToken(token: String) {
+        Log.d("TestToken", "setToken: ${token}")
         dataStore.edit { preferences ->
             preferences[USER_TOKEN_KEY] = token
         }
