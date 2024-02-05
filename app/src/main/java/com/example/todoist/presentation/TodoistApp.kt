@@ -1,6 +1,5 @@
 package com.example.todoist.presentation
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -48,78 +47,79 @@ fun TodoistApp(
 
         composable(Routes.Landing.route) {
 
-
             token?.let {
-
-
-                Log.d("TestToken", "let: ${token}")
-
                 if (token == "") {
                     navController.navigate(Routes.Login.route)
                 } else {
                     navController.navigate(Routes.Home.route)
                 }
-
             }
-
-
-//            LaunchedEffect(token) {
-//                Log.d("TestLaunchedEffect", "open")
-//                if (token != null) {
-//                    navController.navigate(Routes.Home.route)
-//                } else {
-//                    navController.navigate(Routes.Login.route)
-//                }
-//            }
         }
 
 
         composable(Routes.Login.route) {
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+//            token?.let {
+//
+//                Log.d("TestToken", "let: ${token}")
+//
+//                if (token == "") {
+//                    navController.navigate(Routes.Login.route)
+//                } else {
+//                    navController.navigate(Routes.Home.route)
+//                }
+//
+//            }
 
-                ) {
+            if (token != "")
+                navController.navigate(Routes.Home.route)
+            else {
                 Column(
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .wrapContentSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.at_work),
-                        contentDescription = null,
-                    )
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
 
-                    Text(
-                        text = "Todoist",
-                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    )
+                    ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxSize()
+                            .wrapContentSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.at_work),
+                            contentDescription = null,
+                        )
 
-                    Text(
-                        text = "Designed to help you better manage your work",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = Color.Gray
-                    )
+                        Text(
+                            text = "Todoist",
+                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                        )
+
+                        Text(
+                            text = "Designed to help you better manage your work",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = Color.Gray
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(56.dp))
+
+                    Button(
+                        onClick = {
+
+                            currentOnLogin.invoke()
+                        },
+                        modifier = Modifier
+                            .padding(bottom = 32.dp)
+
+                    ) {
+                        Text(text = "Get Started")
+                    }
                 }
 
-                Spacer(modifier = Modifier.height(56.dp))
-
-                Button(
-                    onClick = {
-
-                        currentOnLogin.invoke()
-                    },
-                    modifier = Modifier
-                        .padding(bottom = 32.dp)
-
-                ) {
-                    Text(text = "Get Started")
-                }
             }
 
 

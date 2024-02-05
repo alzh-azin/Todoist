@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.ui.theme.TodoistTheme
 import com.example.todoist.viewModel.AppSettingViewModel
@@ -26,17 +26,14 @@ class MainActivity : ComponentActivity() {
             TodoistTheme {
 
                 val navController = rememberNavController()
-                val token by appSettingsViewModel.authenticationState.collectAsState(null)
-
+                val token by
+                appSettingsViewModel.isLoggedIn.collectAsStateWithLifecycle()
 
                 val onLogin = {
                     val loginIntent = Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse("https://todoist.com/oauth/authorize?client_id=766ef02efd6b42429cc7a69f3e35bd3a&scope=data:read,data:delete&state=secretstring")
                     )
-
-                    appSettingsViewModel.setToken("aaaa")
-
 
                     startActivity(loginIntent)
                 }
@@ -46,7 +43,6 @@ class MainActivity : ComponentActivity() {
                     onLogin = onLogin,
                     token = token
                 )
-
             }
         }
     }
@@ -59,7 +55,7 @@ class MainActivity : ComponentActivity() {
             val code = uri.getQueryParameter("code")
             if (code != null) {
                 Toast.makeText(this, "${code}", Toast.LENGTH_SHORT).show()
-//                appSettingsViewModel.setToken(code)
+                appSettingsViewModel.setToken(code)
 
             } else if ((uri.getQueryParameter("error")) != null) {
                 Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
