@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
             TodoistTheme {
 
                 val navController = rememberNavController()
+
                 val token by
                 appSettingsViewModel.isLoggedIn.collectAsStateWithLifecycle()
 
@@ -51,10 +52,11 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
 
         val uri: Uri? = intent?.data
+
         if (uri != null) {
             val code = uri.getQueryParameter("code")
             if (code != null) {
-                Toast.makeText(this, "${code}", Toast.LENGTH_SHORT).show()
+
                 appSettingsViewModel.setToken(code)
 
             } else if ((uri.getQueryParameter("error")) != null) {

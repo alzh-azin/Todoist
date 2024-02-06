@@ -48,7 +48,7 @@ fun TodoistApp(
         composable(Routes.Landing.route) {
 
             token?.let {
-                if (token == "") {
+                if (token.isEmpty()) {
                     navController.navigate(Routes.Login.route)
                 } else {
                     navController.navigate(Routes.Home.route)
@@ -59,21 +59,12 @@ fun TodoistApp(
 
         composable(Routes.Login.route) {
 
-//            token?.let {
-//
-//                Log.d("TestToken", "let: ${token}")
-//
-//                if (token == "") {
-//                    navController.navigate(Routes.Login.route)
-//                } else {
-//                    navController.navigate(Routes.Home.route)
-//                }
-//
-//            }
 
-            if (token != "")
+            if (token?.isNotEmpty() == true)
+
                 navController.navigate(Routes.Home.route)
             else {
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -129,10 +120,5 @@ fun TodoistApp(
             Text(text = "This is home")
         }
     }
-
-}
-
-@Composable
-fun AuthenticationHandlerScreen() {
 
 }
