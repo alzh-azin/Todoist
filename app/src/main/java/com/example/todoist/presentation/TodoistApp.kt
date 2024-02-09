@@ -1,138 +1,93 @@
 package com.example.todoist.presentation
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.todoist.R
+import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
 import com.example.todoist.viewModel.AppSettingViewModel
+import kotlinx.coroutines.CoroutineScope
+
+@Composable
+fun MainScreen(
+    appSettingViewModel: AppSettingViewModel,
+    onLogin: () -> Unit
+) {
+
+    Surface {
+
+        TodoistApp(
+            appSettingViewModel = appSettingViewModel,
+            onLogin = onLogin
+        )
+    }
+}
+
 
 @Composable
 fun TodoistApp(
+    onLogin: () -> Unit,
     appSettingViewModel: AppSettingViewModel = hiltViewModel(),
-    navController: NavHostController,
-    token: String?,
-    onLogin: () -> Unit
-
+    navController: NavHostController = rememberNavController(),
+    drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
+    coroutineScope: CoroutineScope = rememberCoroutineScope()
 ) {
 
-    val currentOnLogin by rememberUpdatedState(newValue = onLogin)
+    val token by appSettingViewModel.isLoggedIn.collectAsStateWithLifecycle()
 
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
 
-    NavHost(
-        navController = navController,
-        startDestination = Routes.Landing.route
+            }
+        }
     ) {
+        NavHost(
+            navController = navController,
+            startDestination = Routes.Landing.route
+        ) {
 
-        composable(Routes.Landing.route) {
+            composable(Routes.Landing.route) {
 
-            token?.let {
-                if (token == "") {
-                    navController.navigate(Routes.Login.route)
-                } else {
-                    navController.navigate(Routes.Home.route)
-                }
-            }
-        }
-
-
-        composable(Routes.Login.route) {
-
-//            token?.let {
-//
-//                Log.d("TestToken", "let: ${token}")
-//
-//                if (token == "") {
-//                    navController.navigate(Routes.Login.route)
-//                } else {
-//                    navController.navigate(Routes.Home.route)
-//                }
-//
-//            }
-
-            if (token != "")
-                navController.navigate(Routes.Home.route)
-            else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-
-                    ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
-                            .wrapContentSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.at_work),
-                            contentDescription = null,
-                        )
-
-                        Text(
-                            text = "Todoist",
-                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                        )
-
-                        Text(
-                            text = "Designed to help you better manage your work",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = Color.Gray
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(56.dp))
-
-                    Button(
-                        onClick = {
-
-                            currentOnLogin.invoke()
-                        },
-                        modifier = Modifier
-                            .padding(bottom = 32.dp)
-
-                    ) {
-                        Text(text = "Get Started")
+                token?.let {
+                    if (it.isEmpty()) {
+                        navController.navigate(Routes.Login.route)
+                    } else {
+                        navController.navigate(Routes.Home.route)
                     }
                 }
-
             }
 
 
+            composable(Routes.Login.route) {
+
+                LoginRoute(
+                    token = token,
+                    onLogin = onLogin,
+                    navController = navController
+                )
+
+            }
+
+            composable(Routes.Home.route) {
+                Text(text = "This is home")
+            }
         }
 
-        composable(Routes.Home.route) {
-            Text(text = "This is home")
-        }
     }
 
-}
-
-@Composable
-fun AuthenticationHandlerScreen() {
 
 }
