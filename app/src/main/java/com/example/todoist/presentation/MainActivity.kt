@@ -3,6 +3,7 @@ package com.example.todoist.presentation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -55,7 +56,9 @@ class MainActivity : ComponentActivity() {
             val code = uri.getQueryParameter("code")
             if (code != null) {
                 Toast.makeText(this, "${code}", Toast.LENGTH_SHORT).show()
-                appSettingsViewModel.setToken(code)
+                Log.d("AuthCode", "$code")
+
+                appSettingsViewModel.getToken(code)
 
             } else if ((uri.getQueryParameter("error")) != null) {
                 Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()

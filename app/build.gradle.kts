@@ -82,4 +82,11 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
+
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.convertor.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.logging.interceptor)
+    ksp(libs.moshi.kotlin.codegen)
 }
