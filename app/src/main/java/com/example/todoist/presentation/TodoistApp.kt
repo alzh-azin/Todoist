@@ -47,6 +47,8 @@ fun TodoistApp(
 
     val token by appSettingViewModel.isLoggedIn.collectAsStateWithLifecycle()
 
+    val loginState by appSettingViewModel.loginState.collectAsStateWithLifecycle()
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -77,7 +79,8 @@ fun TodoistApp(
                 LoginRoute(
                     token = token,
                     onLogin = onLogin,
-                    navController = navController
+                    navController = navController,
+                    loginState = loginState
                 )
 
             }

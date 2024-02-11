@@ -1,5 +1,6 @@
 package com.example.todoist.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,21 +25,32 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.R
 import com.example.todoist.Routes
+import com.example.todoist.data.NetworkResult
 
 @Composable
 fun LoginRoute(
     token: String?,
+    loginState: NetworkResult<Unit>,
     navController: NavHostController = rememberNavController(),
     onLogin: () -> Unit
 ) {
-    if (token?.isNotEmpty() == true)
 
+    if (loginState is NetworkResult.Success) {
+        Log.d("NetworkTest", "LoginRoute: successful ")
         navController.navigate(Routes.Home.route)
-    else {
+    } else {
         LoginScreen(
             onLogin = onLogin
         )
     }
+//    if (token?.isNotEmpty() == true)
+//
+//        navController.navigate(Routes.Home.route)
+//    else {
+//        LoginScreen(
+//            onLogin = onLogin
+//        )
+//    }
 
 }
 
