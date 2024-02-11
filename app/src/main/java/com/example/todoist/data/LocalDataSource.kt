@@ -16,6 +16,7 @@ class LocalDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 
+    //TODO return Boolean
     fun isUserLoggedIn(): Flow<String> {
         return dataStore.data.catch {
             emit(emptyPreferences())

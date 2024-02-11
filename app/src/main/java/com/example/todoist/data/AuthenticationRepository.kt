@@ -20,9 +20,7 @@ class AuthenticationRepository @Inject constructor(
 
         if (connectivityObserver.isConnected()) {
 
-            when (authenticationRemoteDataSource.getToken(code).apply {
-                emit(NetworkResult.Loading(false))
-            }) {
+            when (authenticationRemoteDataSource.getToken(code)) {
 
                 is NetworkResult.Success -> {
                     Log.d("NetworkTest", "getToken: $code ")

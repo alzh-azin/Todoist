@@ -1,6 +1,5 @@
 package com.example.todoist.presentation
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,37 +20,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.R
 import com.example.todoist.Routes
-import com.example.todoist.data.NetworkResult
 
 @Composable
 fun LoginRoute(
     token: String?,
-    loginState: NetworkResult<Unit>,
+    loginState: LoginState?,
     navController: NavHostController = rememberNavController(),
     onLogin: () -> Unit
 ) {
 
-    if (loginState is NetworkResult.Success) {
-        Log.d("NetworkTest", "LoginRoute: successful ")
-        navController.navigate(Routes.Home.route)
-    } else {
-        LoginScreen(
-            onLogin = onLogin
-        )
-    }
-//    if (token?.isNotEmpty() == true)
-//
-//        navController.navigate(Routes.Home.route)
-//    else {
-//        LoginScreen(
-//            onLogin = onLogin
-//        )
-//    }
+    when (loginState) {
 
+        is LoginState.Loading -> {
+            LoginLoadingDialog()
+        }
+
+        is LoginState.Success -> {
+            navController.navigate(Routes.Home.route)
+
+        }
+
+        is LoginState.Error -> {
+
+            LoginScreen(
+                onLogin = onLogin
+            )
+        }
+
+        else -> {
+            LoginScreen(onLogin)
+        }
+    }
 }
 
 @Composable
@@ -107,4 +111,14 @@ fun LoginScreen(
         }
     }
 
+}
+
+@Composable
+fun LoginLoadingDialog() {
+    Dialog(onDismissRequest = {}) {
+        Column {
+            Text(text = "Loading", fontWeight = FontWeight.Bold)
+            Text(text = "Please wait...")
+        }
+    }
 }
