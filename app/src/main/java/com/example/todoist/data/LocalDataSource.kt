@@ -32,7 +32,7 @@ class LocalDataSource @Inject constructor(
     }
 
     companion object {
-        private val USER_TOKEN_KEY = stringPreferencesKey("user-token")
+         val USER_TOKEN_KEY = stringPreferencesKey("user-token")
     }
 
 }
