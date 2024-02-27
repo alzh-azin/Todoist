@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.R
@@ -33,6 +33,8 @@ fun LoginRoute(
     navController: NavHostController = rememberNavController(),
     onLogin: () -> Unit
 ) {
+
+    LoginScreen(onLogin)
 
     when (loginState) {
 
@@ -47,13 +49,10 @@ fun LoginRoute(
 
         is LoginState.Error -> {
 
-            LoginScreen(
-                onLogin = onLogin
-            )
         }
 
         else -> {
-            LoginScreen(onLogin)
+
         }
     }
 }
@@ -115,10 +114,10 @@ fun LoginScreen(
 
 @Composable
 fun LoginLoadingDialog() {
-    Dialog(onDismissRequest = {}) {
-        Column {
-            Text(text = "Loading", fontWeight = FontWeight.Bold)
-            Text(text = "Please wait...")
-        }
-    }
+    AlertDialog(
+        onDismissRequest = {},
+        title = { },
+        text = { Text("Please wait while we process your request.") },
+        confirmButton = { }
+    )
 }
