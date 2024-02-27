@@ -20,11 +20,11 @@ class AuthenticationRepository @Inject constructor(
 
         if (connectivityObserver.isConnected()) {
 
-            when (authenticationRemoteDataSource.getToken(code)) {
+            when (val response = authenticationRemoteDataSource.getToken(code)) {
 
                 is NetworkResult.Success -> {
-                    Log.d("NetworkTest", "getToken: $code ")
-                    localDataSource.setToken(code)
+                    Log.d("NetworkTest", "getToken: ${response.data?.accessToken} ")
+                    localDataSource.setToken(response.data?.accessToken.orEmpty())
                     emit(NetworkResult.Success(Unit))
                 }
 

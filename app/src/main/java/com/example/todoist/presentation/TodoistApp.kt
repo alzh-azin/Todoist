@@ -17,7 +17,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
+import com.example.todoist.data.NetworkResult
 import com.example.todoist.viewModel.AppSettingViewModel
+import com.example.todoist.viewModel.ProjectViewModel
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -86,7 +88,18 @@ fun TodoistApp(
             }
 
             composable(Routes.Home.route) {
-                Text(text = "This is home")
+
+                val projectViewModel: ProjectViewModel = hiltViewModel()
+
+                val state by projectViewModel.projectList.collectAsStateWithLifecycle()
+
+                if (state is NetworkResult.Success) {
+
+                    Text(text = "Success")
+                } else if (state is NetworkResult.Loading) {
+                    Text(text = "Loading")
+                }
+
             }
         }
 

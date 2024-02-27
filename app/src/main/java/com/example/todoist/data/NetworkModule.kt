@@ -52,4 +52,12 @@ object NetworkModule {
 
         }
     }
+
+    @Singleton
+    @Provides
+    fun provideProjectService(builder: Retrofit.Builder): ProjectService {
+        return builder
+            .build()
+            .create(ProjectService::class.java)
+    }
 }
