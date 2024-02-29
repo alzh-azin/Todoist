@@ -1,5 +1,9 @@
 package com.example.todoist.presentation
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalDrawerSheet
@@ -10,6 +14,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -18,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
 import com.example.todoist.data.NetworkResult
+import com.example.todoist.data.ProjectNetwork
 import com.example.todoist.viewModel.AppSettingViewModel
 import com.example.todoist.viewModel.ProjectViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -51,11 +58,22 @@ fun TodoistApp(
 
     val loginState by appSettingViewModel.loginState.collectAsStateWithLifecycle()
 
+    val projectViewModel: ProjectViewModel = hiltViewModel()
+
+    val state by projectViewModel.projectList.collectAsStateWithLifecycle()
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
 
+
+                if (state is NetworkResult.Success) {
+
+                    ProjectList((state as NetworkResult.Success<List<ProjectNetwork>>).data.orEmpty())
+                } else if (state is NetworkResult.Loading) {
+                    Text(text = "Loading")
+                }
             }
         }
     ) {
@@ -89,16 +107,6 @@ fun TodoistApp(
 
             composable(Routes.Home.route) {
 
-                val projectViewModel: ProjectViewModel = hiltViewModel()
-
-                val state by projectViewModel.projectList.collectAsStateWithLifecycle()
-
-                if (state is NetworkResult.Success) {
-
-                    Text(text = "Success")
-                } else if (state is NetworkResult.Loading) {
-                    Text(text = "Loading")
-                }
 
             }
         }
@@ -106,4 +114,31 @@ fun TodoistApp(
     }
 
 
+}
+
+@Composable
+fun ProjectList(
+    projects: List<ProjectNetwork>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier) {
+        items(
+            items = projects,
+            key = { project ->
+                project.id
+            }
+        ) { project ->
+            ProjectItem(name = project.name)
+        }
+    }
+}
+
+@Composable
+fun ProjectItem(
+    name: String,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier.padding(16.dp)) {
+        Text(text = name)
+    }
 }

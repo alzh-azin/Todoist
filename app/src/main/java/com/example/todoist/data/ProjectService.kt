@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface ProjectService {
 
     @GET("projects")
-    suspend fun getProjectList(): Response<ProjectListResponse>
+    suspend fun getProjectList(): Response<List<ProjectNetwork>>
 }

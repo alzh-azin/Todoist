@@ -11,7 +11,7 @@ class ProjectRepository @Inject constructor(
     private val projectRemoteDataSource: ProjectRemoteDataSource
 ) {
 
-    fun getProjectList(): Flow<NetworkResult<ProjectListResponse>> = flow {
+    fun getProjectList(): Flow<NetworkResult<List<ProjectNetwork>>> = flow {
 
         emit(NetworkResult.Loading(true))
 
@@ -20,7 +20,7 @@ class ProjectRepository @Inject constructor(
             val projectList = projectRemoteDataSource.getProjectList()
 
             if (projectList is NetworkResult.Success) {
-                emit(projectList)
+                emit(NetworkResult.Success(projectList.data))
             }
         }
     }

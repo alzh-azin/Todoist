@@ -8,7 +8,7 @@ class ProjectRemoteDataSource @Inject constructor(
     private val projectService: ProjectService
 ) {
 
-    suspend fun getProjectList(): NetworkResult<ProjectListResponse> = safeApiCall(
+    suspend fun getProjectList(): NetworkResult<List<ProjectNetwork>> = safeApiCall(
         call = {
             projectService.getProjectList()
         },
