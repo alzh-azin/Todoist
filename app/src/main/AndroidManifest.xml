@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Todoist"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".home.ui.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.Todoist">
