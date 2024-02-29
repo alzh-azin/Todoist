@@ -2,9 +2,10 @@ package com.example.todoist.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todoist.authentication.data.local.AuthenticationLocalDataSource
+import com.example.todoist.authentication.data.repository.AuthenticationRepository
+import com.example.todoist.authentication.ui.LoginState
 import com.example.todoist.core.network.utils.NetworkResult
-import com.example.todoist.home.data.AuthenticationRepository
-import com.example.todoist.home.data.LocalDataSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppSettingViewModel @Inject constructor(
-    val localDataSource: LocalDataSource,
+    val authenticationLocalDataSource: AuthenticationLocalDataSource,
     val authenticationRepository: AuthenticationRepository
 ) : ViewModel() {
 
@@ -25,7 +26,7 @@ class AppSettingViewModel @Inject constructor(
     val loginState: StateFlow<LoginState?> = _loginState
 
 
-    val isLoggedIn = localDataSource.isUserLoggedIn()
+    val isLoggedIn = authenticationLocalDataSource.isUserLoggedIn()
         .stateIn(scope = viewModelScope, started = SharingStarted.Eagerly, initialValue = null)
 
 

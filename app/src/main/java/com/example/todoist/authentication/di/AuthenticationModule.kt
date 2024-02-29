@@ -1,6 +1,6 @@
-package com.example.todoist.home.di
+package com.example.todoist.authentication.di
 
-import com.example.todoist.home.data.AuthenticationService
+import com.example.todoist.authentication.data.network.AuthenticationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

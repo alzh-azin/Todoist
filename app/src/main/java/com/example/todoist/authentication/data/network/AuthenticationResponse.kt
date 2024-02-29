@@ -1,4 +1,4 @@
-package com.example.todoist.home.data
+package com.example.todoist.authentication.data.network
 
 import com.squareup.moshi.Json
 

@@ -1,4 +1,4 @@
-package com.example.todoist.home.data
+package com.example.todoist.authentication.data.network
 
 import com.example.todoist.core.network.utils.NetworkResult
 import com.example.todoist.core.network.utils.safeApiCall

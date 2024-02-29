@@ -1,6 +1,8 @@
-package com.example.todoist.home.data
+package com.example.todoist.authentication.data.repository
 
 import android.util.Log
+import com.example.todoist.authentication.data.local.AuthenticationLocalDataSource
+import com.example.todoist.authentication.data.network.AuthenticationRemoteDataSource
 import com.example.todoist.core.network.utils.ConnectivityObserver
 import com.example.todoist.core.network.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class AuthenticationRepository @Inject constructor(
     private val connectivityObserver: ConnectivityObserver,
-    private val localDataSource: LocalDataSource,
+    private val authenticationLocalDataSource: AuthenticationLocalDataSource,
     private val authenticationRemoteDataSource: AuthenticationRemoteDataSource
 ) {
 
@@ -26,7 +28,7 @@ class AuthenticationRepository @Inject constructor(
 
                 is NetworkResult.Success -> {
                     Log.d("NetworkTest", "getToken: ${response.data?.accessToken} ")
-                    localDataSource.setToken(response.data?.accessToken.orEmpty())
+                    authenticationLocalDataSource.setToken(response.data?.accessToken.orEmpty())
                     emit(NetworkResult.Success(Unit))
                 }
 

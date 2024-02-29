@@ -1,4 +1,4 @@
-package com.example.todoist.home.ui
+package com.example.todoist.authentication.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,41 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.todoist.R
-import com.example.todoist.Routes
-
-@Composable
-fun LoginRoute(
-    token: String?,
-    loginState: LoginState?,
-    navController: NavHostController = rememberNavController(),
-    onLogin: () -> Unit
-) {
-
-    LoginScreen(onLogin)
-
-    when (loginState) {
-
-        is LoginState.Loading -> {
-            LoginLoadingDialog()
-        }
-
-        is LoginState.Success -> {
-            navController.navigate(Routes.Home.route)
-
-        }
-
-        is LoginState.Error -> {
-
-        }
-
-        else -> {
-
-        }
-    }
-}
 
 @Composable
 fun LoginScreen(

@@ -1,4 +1,4 @@
-package com.example.todoist.home.data
+package com.example.todoist.authentication.data.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalDataSource @Inject constructor(
+class AuthenticationLocalDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 

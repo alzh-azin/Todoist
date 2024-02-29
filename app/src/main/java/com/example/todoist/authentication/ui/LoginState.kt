@@ -1,4 +1,4 @@
-package com.example.todoist.home.ui
+package com.example.todoist.authentication.ui
 
 sealed interface LoginState {
 

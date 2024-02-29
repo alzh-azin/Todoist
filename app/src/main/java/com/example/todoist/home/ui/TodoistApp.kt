@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
+import com.example.todoist.authentication.ui.LoginRoute
 import com.example.todoist.core.network.utils.NetworkResult
 import com.example.todoist.project.data.network.ProjectNetwork
 import com.example.todoist.project.ui.ProjectViewModel

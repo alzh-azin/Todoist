@@ -2,7 +2,7 @@ package com.example.todoist.core.network.interceptor
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.example.todoist.home.data.LocalDataSource
+import com.example.todoist.authentication.data.local.AuthenticationLocalDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -22,7 +22,7 @@ class AuthenticationInterceptor @Inject constructor(
         //TODO change the place of USER_TOKEN_KEY
         val token = runBlocking {
             dataStore.data.first()
-        }[LocalDataSource.USER_TOKEN_KEY]
+        }[AuthenticationLocalDataSource.USER_TOKEN_KEY]
 
         val newRequest = request.newBuilder()
             .addHeader("Authorization", "Bearer $token")

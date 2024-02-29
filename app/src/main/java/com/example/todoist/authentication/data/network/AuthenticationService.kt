@@ -1,4 +1,4 @@
-package com.example.todoist.home.data
+package com.example.todoist.authentication.data.network
 
 import retrofit2.Response
 import retrofit2.http.POST
