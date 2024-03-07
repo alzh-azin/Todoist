@@ -1,9 +1,9 @@
 package com.example.todoist.project.data.repository
 
 import com.example.todoist.core.network.utils.ConnectivityObserver
-import com.example.todoist.core.network.utils.NetworkResult
-import com.example.todoist.project.data.network.ProjectNetwork
+import com.example.todoist.core.network.utils.Result
 import com.example.todoist.project.data.network.ProjectRemoteDataSource
+import com.example.todoist.project.domain.model.Project
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -15,16 +15,18 @@ class ProjectRepository @Inject constructor(
     private val projectRemoteDataSource: ProjectRemoteDataSource
 ) {
 
-    fun getProjectList(): Flow<NetworkResult<List<ProjectNetwork>>> = flow {
+    fun getProjectList(): Flow<Result<List<Project>>> = flow {
 
-        emit(NetworkResult.Loading(true))
+        emit(Result.Loading(true))
 
         if (connectivityObserver.isConnected()) {
 
             val projectList = projectRemoteDataSource.getProjectList()
 
-            if (projectList is NetworkResult.Success) {
-                emit(NetworkResult.Success(projectList.data))
+            if (projectList is Result.Success) {
+                emit(Result.Success(projectList.data?.map { projectNetwork ->
+                    projectNetwork.toProject()
+                }))
             }
         }
     }

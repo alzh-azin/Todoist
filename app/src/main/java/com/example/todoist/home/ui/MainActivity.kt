@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
 
                 Log.d("AuthCode", "$code")
 
-                appSettingsViewModel.getToken(code)
+                appSettingsViewModel.sendToken(code)
 
             } else if ((uri.getQueryParameter("error")) != null) {
                 Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()

@@ -24,9 +24,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
 import com.example.todoist.authentication.ui.LoginRoute
-import com.example.todoist.core.network.utils.NetworkResult
-import com.example.todoist.project.data.network.ProjectNetwork
 import com.example.todoist.project.ui.ProjectViewModel
+import com.example.todoist.project.ui.model.ProjectView
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -60,20 +59,13 @@ fun TodoistApp(
 
     val projectViewModel: ProjectViewModel = hiltViewModel()
 
-    val state by projectViewModel.projectList.collectAsStateWithLifecycle()
+    val state by projectViewModel.projectState.collectAsStateWithLifecycle()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-
-
-                if (state is NetworkResult.Success) {
-
-                    ProjectList((state as NetworkResult.Success<List<ProjectNetwork>>).data.orEmpty())
-                } else if (state is NetworkResult.Loading) {
-                    Text(text = "Loading")
-                }
+                ProjectList(state.projects)
             }
         }
     ) {
@@ -107,7 +99,7 @@ fun TodoistApp(
 
             composable(Routes.Home.route) {
 
-
+                projectViewModel.getProjectList()
             }
         }
 
@@ -118,7 +110,7 @@ fun TodoistApp(
 
 @Composable
 fun ProjectList(
-    projects: List<ProjectNetwork>,
+    projects: List<ProjectView>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {

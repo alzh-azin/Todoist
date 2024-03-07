@@ -2,10 +2,10 @@ package com.example.todoist.home.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoist.authentication.data.local.AuthenticationLocalDataSource
-import com.example.todoist.authentication.data.repository.AuthenticationRepository
+import com.example.todoist.authentication.domain.CheckIfUserLoggedIn
+import com.example.todoist.authentication.domain.GetToken
 import com.example.todoist.authentication.ui.LoginState
-import com.example.todoist.core.network.utils.NetworkResult
+import com.example.todoist.core.network.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,37 +18,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppSettingViewModel @Inject constructor(
-    val authenticationLocalDataSource: AuthenticationLocalDataSource,
-    val authenticationRepository: AuthenticationRepository
+    private val checkIfUserLoggedIn: CheckIfUserLoggedIn,
+    private val getToken: GetToken
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState?>(null)
     val loginState: StateFlow<LoginState?> = _loginState
 
 
-    val isLoggedIn = authenticationLocalDataSource.isUserLoggedIn()
+    val isLoggedIn = checkIfUserLoggedIn()
         .stateIn(scope = viewModelScope, started = SharingStarted.Eagerly, initialValue = null)
 
 
-    fun getToken(code: String) {
+    fun sendToken(code: String) {
 
-        authenticationRepository.getToken(code)
+        getToken(code)
             .onEach { result ->
                 _loginState.value = when (result) {
 
-                    is NetworkResult.Success -> {
+                    is Result.Success -> {
                         LoginState.Success
                     }
 
-                    is NetworkResult.Error -> {
+                    is Result.Error -> {
                         LoginState.Error(result.errorMessage.orEmpty())
                     }
 
-                    is NetworkResult.Loading -> {
+                    is Result.Loading -> {
                         LoginState.Loading
                     }
 
-                    is NetworkResult.Exception -> {
+                    is Result.Exception -> {
                         LoginState.Error(result.exceptionMessage.orEmpty())
                     }
                 }

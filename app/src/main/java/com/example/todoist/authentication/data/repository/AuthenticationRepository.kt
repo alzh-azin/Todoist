@@ -4,13 +4,12 @@ import android.util.Log
 import com.example.todoist.authentication.data.local.AuthenticationLocalDataSource
 import com.example.todoist.authentication.data.network.AuthenticationRemoteDataSource
 import com.example.todoist.core.network.utils.ConnectivityObserver
-import com.example.todoist.core.network.utils.NetworkResult
+import com.example.todoist.core.network.utils.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-//TODO change the scope
 @Singleton
 class AuthenticationRepository @Inject constructor(
     private val connectivityObserver: ConnectivityObserver,
@@ -18,33 +17,35 @@ class AuthenticationRepository @Inject constructor(
     private val authenticationRemoteDataSource: AuthenticationRemoteDataSource
 ) {
 
-    fun getToken(code: String): Flow<NetworkResult<Unit>> = flow {
+    fun isUserLoggedIn() = authenticationLocalDataSource.isUserLoggedIn()
 
-        emit(NetworkResult.Loading(true))
+    fun getToken(code: String): Flow<Result<Unit>> = flow {
+
+        emit(Result.Loading(true))
 
         if (connectivityObserver.isConnected()) {
 
             when (val response = authenticationRemoteDataSource.getToken(code)) {
 
-                is NetworkResult.Success -> {
+                is Result.Success -> {
                     Log.d("NetworkTest", "getToken: ${response.data?.accessToken} ")
                     authenticationLocalDataSource.setToken(response.data?.accessToken.orEmpty())
-                    emit(NetworkResult.Success(Unit))
+                    emit(Result.Success(Unit))
                 }
 
-                is NetworkResult.Error -> {
-                    emit(NetworkResult.Error(errorMessage = "Something went wrong, please try again"))
+                is Result.Error -> {
+                    emit(Result.Error(errorMessage = "Something went wrong, please try again"))
                 }
 
-                is NetworkResult.Exception -> {
-                    emit(NetworkResult.Exception("Network request failed"))
+                is Result.Exception -> {
+                    emit(Result.Exception("Network request failed"))
                 }
 
                 else -> {}
             }
 
         } else {
-            emit(NetworkResult.Error(errorMessage = "No internet connection"))
+            emit(Result.Error(errorMessage = "No internet connection"))
         }
     }
 

@@ -6,21 +6,21 @@ import retrofit2.Response
 suspend fun <T> safeApiCall(
     call: suspend () -> Response<T>,
     exceptionMessage: String
-): NetworkResult<T> {
+): Result<T> {
     return try {
         val response = call()
 
         if (response.isSuccessful) {
             val body = response.body()
             Log.d("NetworkTest", "safeApiCall: ${response.code()}")
-            NetworkResult.Success(body)
+            Result.Success(body)
 
         } else {
 
             val error = errorParser(response.errorBody()?.string())
-            NetworkResult.Error(error.code, error.message)
+            Result.Error(error.code, error.message)
         }
     } catch (e: Exception) {
-        NetworkResult.Exception(exceptionMessage)
+        Result.Exception(exceptionMessage)
     }
 }
