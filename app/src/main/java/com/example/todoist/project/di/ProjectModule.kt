@@ -1,5 +1,7 @@
 package com.example.todoist.project.di
 
+import com.example.todoist.core.local.TodoistDatabase
+import com.example.todoist.project.data.local.ProjectDao
 import com.example.todoist.project.data.network.ProjectService
 import dagger.Module
 import dagger.Provides
@@ -17,5 +19,11 @@ object ProjectModule {
         return builder
             .build()
             .create(ProjectService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProjectDao(db: TodoistDatabase): ProjectDao {
+        return db.projectDao
     }
 }
