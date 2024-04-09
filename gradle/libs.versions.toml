@@ -21,6 +21,7 @@ moshi-codegen = "1.14.0"
 logging-interceptor = "4.9.0"
 room = "2.6.1"
 coroutine = "1.7.3"
+workManager = "2.9.0"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -63,6 +64,8 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine" }
+
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
