@@ -91,7 +91,7 @@ dependencies {
     ksp(libs.moshi.kotlin.codegen)
 
     implementation(libs.room.runtime)
-    ksp(libs.room.compiler)
+    kapt(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.kotlinx.coroutines.android)
 

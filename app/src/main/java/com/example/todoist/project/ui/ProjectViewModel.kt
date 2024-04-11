@@ -2,7 +2,7 @@ package com.example.todoist.project.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todoist.core.network.utils.Result
+import com.example.todoist.core.network.utils.NetworkResult
 import com.example.todoist.project.domain.usecase.GetProjects
 import com.example.todoist.project.ui.model.toProjectView
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ class ProjectViewModel @Inject constructor(
         viewModelScope.launch {
             getProjects().collect { result ->
                 when (result) {
-                    is Result.Success -> {
+                    is NetworkResult.Success -> {
                         result.data?.let { projects ->
                             _projectState.value = _projectState.value.copy(
                                 projects = projects.map {
@@ -34,15 +34,15 @@ class ProjectViewModel @Inject constructor(
                         }
                     }
 
-                    is Result.Error -> {
+                    is NetworkResult.Error -> {
 
                     }
 
-                    is Result.Loading -> {
+                    is NetworkResult.Loading -> {
 
                     }
 
-                    is Result.Exception -> {
+                    is NetworkResult.Exception -> {
 
                     }
                 }

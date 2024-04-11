@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.todoist.authentication.data.local.AuthenticationLocalDataSource
 import com.example.todoist.authentication.data.network.AuthenticationRemoteDataSource
 import com.example.todoist.core.network.utils.ConnectivityObserver
-import com.example.todoist.core.network.utils.Result
+import com.example.todoist.core.network.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -19,33 +19,33 @@ class AuthenticationRepository @Inject constructor(
 
     fun isUserLoggedIn() = authenticationLocalDataSource.isUserLoggedIn()
 
-    fun getToken(code: String): Flow<Result<Unit>> = flow {
+    fun getToken(code: String): Flow<NetworkResult<Unit>> = flow {
 
-        emit(Result.Loading(true))
+        emit(NetworkResult.Loading(true))
 
         if (connectivityObserver.isConnected()) {
 
             when (val response = authenticationRemoteDataSource.getToken(code)) {
 
-                is Result.Success -> {
+                is NetworkResult.Success -> {
                     Log.d("NetworkTest", "getToken: ${response.data?.accessToken} ")
                     authenticationLocalDataSource.setToken(response.data?.accessToken.orEmpty())
-                    emit(Result.Success(Unit))
+                    emit(NetworkResult.Success(Unit))
                 }
 
-                is Result.Error -> {
-                    emit(Result.Error(errorMessage = "Something went wrong, please try again"))
+                is NetworkResult.Error -> {
+                    emit(NetworkResult.Error(errorMessage = "Something went wrong, please try again"))
                 }
 
-                is Result.Exception -> {
-                    emit(Result.Exception("Network request failed"))
+                is NetworkResult.Exception -> {
+                    emit(NetworkResult.Exception("Network request failed"))
                 }
 
                 else -> {}
             }
 
         } else {
-            emit(Result.Error(errorMessage = "No internet connection"))
+            emit(NetworkResult.Error(errorMessage = "No internet connection"))
         }
     }
 

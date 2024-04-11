@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.todoist.authentication.domain.CheckIfUserLoggedIn
 import com.example.todoist.authentication.domain.GetToken
 import com.example.todoist.authentication.ui.LoginState
-import com.example.todoist.core.network.utils.Result
+import com.example.todoist.core.network.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,19 +36,19 @@ class AppSettingViewModel @Inject constructor(
             .onEach { result ->
                 _loginState.value = when (result) {
 
-                    is Result.Success -> {
+                    is NetworkResult.Success -> {
                         LoginState.Success
                     }
 
-                    is Result.Error -> {
+                    is NetworkResult.Error -> {
                         LoginState.Error(result.errorMessage.orEmpty())
                     }
 
-                    is Result.Loading -> {
+                    is NetworkResult.Loading -> {
                         LoginState.Loading
                     }
 
-                    is Result.Exception -> {
+                    is NetworkResult.Exception -> {
                         LoginState.Error(result.exceptionMessage.orEmpty())
                     }
                 }

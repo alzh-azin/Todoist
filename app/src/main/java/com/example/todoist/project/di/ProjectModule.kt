@@ -2,7 +2,7 @@ package com.example.todoist.project.di
 
 import com.example.todoist.core.local.TodoistDatabase
 import com.example.todoist.project.data.local.ProjectDao
-import com.example.todoist.project.data.network.ProjectService
+import com.example.todoist.sync.data.network.SyncService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,10 +15,10 @@ import javax.inject.Singleton
 object ProjectModule {
     @Singleton
     @Provides
-    fun provideProjectService(builder: Retrofit.Builder): ProjectService {
+    fun provideProjectService(builder: Retrofit.Builder): SyncService {
         return builder
             .build()
-            .create(ProjectService::class.java)
+            .create(SyncService::class.java)
     }
 
     @Provides
