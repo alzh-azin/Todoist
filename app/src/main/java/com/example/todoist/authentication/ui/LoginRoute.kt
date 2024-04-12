@@ -1,6 +1,7 @@
 package com.example.todoist.authentication.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
@@ -22,6 +23,12 @@ fun LoginRoute(
         }
 
         is LoginState.Success -> {
+
+            val fullSyncInitializer = LocalFullSyncInitializer.current
+            LaunchedEffect(key1 = loginState) {
+
+                fullSyncInitializer.initialize()
+            }
             navController.navigate(Routes.Home.route)
 
         }
