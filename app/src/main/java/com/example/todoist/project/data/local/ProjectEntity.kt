@@ -44,3 +44,22 @@ data class ProjectEntity(
         viewStyle = viewStyle
     )
 }
+
+fun Project.toProjectEntity() = ProjectEntity(
+    childOrder = childOrder,
+    collapsed = collapsed,
+    color = color,
+    createdAt = createdAt,
+    id = id,
+    inboxProject = inboxProject,
+    isArchived = isArchived,
+    isDeleted = isDeleted,
+    isFavorite = isFavorite,
+    name = name,
+    parentId = parentId,
+    shared = shared,
+    syncId = syncId,
+    updatedAt = updatedAt,
+    v2Id = v2Id,
+    viewStyle = viewStyle
+)

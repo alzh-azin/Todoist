@@ -1,8 +1,8 @@
 package com.example.todoist.project.data.repository
 
 import com.example.todoist.core.network.utils.ConnectivityObserver
-import com.example.todoist.core.network.utils.NetworkResult
 import com.example.todoist.project.data.local.ProjectLocalDataSource
+import com.example.todoist.project.data.local.toProjectEntity
 import com.example.todoist.project.domain.model.Project
 import com.example.todoist.sync.data.network.SyncRemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -17,30 +17,17 @@ class ProjectRepository @Inject constructor(
     private val projectLocalDataSource: ProjectLocalDataSource
 ) {
 
-    fun getProjectList(): Flow<NetworkResult<List<Project>>> = flow {
+    suspend fun insertProjectList(projectList: List<Project>) {
+        projectLocalDataSource.insertProjectList(projectList.map { project ->
+            project.toProjectEntity()
+        })
+    }
 
-        emit(NetworkResult.Success(projectLocalDataSource.getProjectList().map {
+    fun getProjectList(): Flow<List<Project>> = flow {
+
+        emit(projectLocalDataSource.getProjectList().map {
             it.toProject()
-        }))
+        })
 
-        emit(NetworkResult.Loading(true))
-
-        if (connectivityObserver.isConnected()) {
-
-            val projectList = syncRemoteDataSource.sync()
-
-            if (projectList is NetworkResult.Success) {
-
-                projectLocalDataSource.insertProjectList(
-                    projectList.data?.map { projectNetwork ->
-                        projectNetwork.toProjectEntity()
-                    }.orEmpty()
-                )
-
-                emit(NetworkResult.Success(projectList.data?.map { projectNetwork ->
-                    projectNetwork.toProject()
-                }))
-            }
-        }
     }
 }

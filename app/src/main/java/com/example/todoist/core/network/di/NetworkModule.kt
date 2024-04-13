@@ -21,7 +21,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit.Builder {
         return Retrofit.Builder()
-            .baseUrl("https://api.todoist.com/rest/v2/")
+            .baseUrl("https://api.todoist.com/sync/v9/sync/")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
     }

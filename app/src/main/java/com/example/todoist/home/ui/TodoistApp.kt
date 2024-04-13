@@ -1,5 +1,6 @@
 package com.example.todoist.home.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -23,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todoist.Routes
+import com.example.todoist.authentication.ui.LocalFullSyncInitializer
 import com.example.todoist.authentication.ui.LoginRoute
 import com.example.todoist.project.ui.ProjectViewModel
 import com.example.todoist.project.ui.model.ProjectView
@@ -98,6 +101,14 @@ fun TodoistApp(
             }
 
             composable(Routes.Home.route) {
+
+                val fullSyncInitializer = LocalFullSyncInitializer.current
+                LaunchedEffect(key1 = Unit) {
+
+                    fullSyncInitializer.initialize()
+
+                    Log.d("TestHomeWorkManager", "WorkManager initialized")
+                }
 
                 projectViewModel.getProjectList()
             }
