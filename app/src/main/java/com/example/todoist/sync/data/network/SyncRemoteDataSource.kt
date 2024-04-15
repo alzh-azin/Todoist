@@ -12,7 +12,7 @@ class SyncRemoteDataSource @Inject constructor(
 
     suspend fun sync(): NetworkResult<SyncNetwork> = safeApiCall(
         call = {
-            syncService.sync(resourceTypes = SyncResourceTypeHelper.projects.value)
+            syncService.sync(resourceTypes = listOf(SyncResourceTypeHelper.projects.name).toJsonString())
         },
         exceptionMessage = "Error syncing data"
     )

@@ -22,6 +22,8 @@ logging-interceptor = "4.9.0"
 room = "2.6.1"
 coroutine = "1.7.3"
 workManager = "2.9.0"
+runtime-livedata = "1.4.3"
+hilt-common = "1.2.0"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -66,6 +68,10 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine" }
 
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtime-livedata" }
+
+androidx-hilt-common = { module = "androidx.hilt:hilt-common", version.ref = "hilt-common" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltExt" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }

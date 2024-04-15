@@ -1,6 +1,5 @@
 package com.example.todoist.home.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -107,7 +106,6 @@ fun TodoistApp(
 
                     fullSyncInitializer.initialize()
 
-                    Log.d("TestHomeWorkManager", "WorkManager initialized")
                 }
 
                 projectViewModel.getProjectList()
