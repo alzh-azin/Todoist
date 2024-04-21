@@ -1,7 +1,7 @@
 package com.example.todoist.sync.initializers
 
 import android.content.Context
-import androidx.work.ExistingWorkPolicy
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import com.example.todoist.sync.workers.FullSyncWorker
 import com.example.todoist.sync.workers.FullSyncWorker.Companion.FULL_SYNC_WORK_NAME
@@ -15,9 +15,9 @@ class FullSyncInitializer @Inject constructor(
     fun initialize() {
 
         WorkManager.getInstance(context).apply {
-            enqueueUniqueWork(
+            enqueueUniquePeriodicWork(
                 FULL_SYNC_WORK_NAME,
-                ExistingWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
                 FullSyncWorker.startUpSyncWork(),
             )
         }

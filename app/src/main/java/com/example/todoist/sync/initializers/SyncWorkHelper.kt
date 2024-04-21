@@ -8,4 +8,4 @@ val syncConstraints
         .setRequiredNetworkType(NetworkType.CONNECTED)
         .build()
 
-const val INITIAL_DURATION = 3000L
+const val PERIODIC_REPEAT_INTERVAL = 1000L
