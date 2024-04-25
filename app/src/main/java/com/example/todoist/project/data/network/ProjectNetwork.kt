@@ -1,6 +1,5 @@
 package com.example.todoist.project.data.network
 
-import com.example.todoist.project.data.local.ProjectEntity
 import com.example.todoist.project.domain.model.Project
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -34,43 +33,23 @@ data class ProjectNetwork(
     val v2Id: String,
     @Json(name = "view_style")
     val viewStyle: String
-) {
+)
 
-    fun toProject() = Project(
-        childOrder = childOrder,
-        collapsed = collapsed,
-        color = color,
-        createdAt = createdAt,
-        id = id,
-        inboxProject = inboxProject,
-        isArchived = isArchived,
-        isDeleted = isDeleted,
-        isFavorite = isFavorite,
-        name = name,
-        parentId = parentId,
-        shared = shared,
-        syncId = syncId,
-        updatedAt = updatedAt,
-        v2Id = v2Id,
-        viewStyle = viewStyle
-    )
-
-    fun toProjectEntity() = ProjectEntity(
-        childOrder = childOrder,
-        collapsed = collapsed,
-        color = color,
-        createdAt = createdAt,
-        id = id,
-        inboxProject = inboxProject,
-        isArchived = isArchived,
-        isDeleted = isDeleted,
-        isFavorite = isFavorite,
-        name = name,
-        parentId = parentId,
-        shared = shared,
-        syncId = syncId,
-        updatedAt = updatedAt,
-        v2Id = v2Id,
-        viewStyle = viewStyle
-    )
-}
+fun ProjectNetwork.toProject() = Project(
+    childOrder = childOrder,
+    collapsed = collapsed,
+    color = color,
+    createdAt = createdAt,
+    id = id,
+    inboxProject = inboxProject,
+    isArchived = isArchived,
+    isDeleted = isDeleted,
+    isFavorite = isFavorite,
+    name = name,
+    parentId = parentId,
+    shared = shared,
+    syncId = syncId,
+    updatedAt = updatedAt,
+    v2Id = v2Id,
+    viewStyle = viewStyle
+)

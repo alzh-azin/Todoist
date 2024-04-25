@@ -1,0 +1,30 @@
+package com.example.todoist.task.domain.model
+
+data class Task(
+    val addedAt: String,
+    val addedByUid: String,
+    val assignedByUid: String?,
+    val checked: Boolean,
+    val childOrder: Int,
+    val collapsed: Boolean,
+    val completedAt: String?,
+    val content: String,
+    val dayOrder: Int,
+    val description: String,
+    val due: String?,
+    val duration: String?,
+    val id: String,
+    val isDeleted: Boolean,
+    val parentId: String?,
+    val priority: Int,
+    val projectId: String,
+    val responsibleUid: String?,
+    val sectionId: String?,
+    val syncId: String?,
+    val updatedAt: String,
+    val userId: String,
+    val v2Id: String,
+    val v2ParentId: String?,
+    val v2ProjectId: String,
+    val v2SectionId: String?
+)
